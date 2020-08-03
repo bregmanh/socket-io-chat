@@ -97,17 +97,25 @@ const App = () => {
   const [message, setMessage] = useState("");
 
   const socketRef = useRef();
-
+  const username = "tempname";
+  const room = "temproom";
+  
   useEffect(() => {
     socketRef.current = io.connect('/');
+
+    //in this useEffect?
+    socketRef.current.emit('joinRoom', { username, room});
 
     socketRef.current.on("your id", id => {
       setYourID(id);
     })
 
     socketRef.current.on("message", (message) => {
-      console.log("here");
-      receivedMessage(message);
+      console.log(message);
+      outputMessage(message);
+    
+      // Scroll down
+      //chatMessages.scrollTop = chatMessages.scrollHeight;
     })
   }, []);
 
